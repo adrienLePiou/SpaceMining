@@ -111,7 +111,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    //somes changes
+    //somes changes bla bla
 
     /* What happens when you click*/
     public void hittingAsteroid(View view){
