@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class MainActivity extends Activity {
 
     @Override
@@ -97,6 +99,20 @@ public class MainActivity extends Activity {
     int heroCDCost = 10;
     int heroLvl = 1;
     String LvlName = "Orion";
+    boolean crit = false;
+    int CHRate = 5;
+    int CritDmg = 2;
+
+    // Is it a crit ?
+    public boolean isCritical(){
+        Random rnd = new Random();
+        int rndInt = rnd.nextInt(100);
+        if(rndInt <= CHRate){ // If the random number is below the crit Rate then it is a crit
+            crit = true;
+        } else {crit = false;}
+
+        return crit;
+    }
 
     /* Increase Click Damage */
     public void setClickDmg(View view){
@@ -115,7 +131,12 @@ public class MainActivity extends Activity {
 
     /* What happens when you click*/
     public void hittingAsteroid(View view){
-        asteroidHP = asteroidHP - clickDmg;
+        isCritical();
+        if(crit){
+            asteroidHP = asteroidHP - (clickDmg * CritDmg);
+        } else {
+            asteroidHP = asteroidHP - clickDmg;
+        }
          /* We display the new life of the mob*/
         displayAsteroidStyle(AsteroidStyle);
         displayCurrentLvl(lvl);
