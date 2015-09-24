@@ -111,6 +111,8 @@ public class MainActivity extends Activity {
         }
     }
 
+    //somes changes
+
     /* What happens when you click*/
     public void hittingAsteroid(View view){
         asteroidHP = asteroidHP - clickDmg;
