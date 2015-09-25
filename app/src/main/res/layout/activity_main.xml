@@ -166,8 +166,8 @@
             <Button
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/ic_cosmonaut"
-                android:onClick="setClickDmg"
+                android:background="@mipmap/ic_hero"
+                android:onClick="CreatePopupMenu"
                 android:gravity="center"
                 />
             <TextView

@@ -7,10 +7,13 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -90,17 +93,18 @@ public class MainActivity extends Activity {
 
 
     asteroid Asteroid = new asteroid();
+    Cosmonaute cosmonaute = new Cosmonaute();
     int asteroidHP = Asteroid.getAsteroidHP();
     int lvl = 1;
     String AsteroidStyle = Asteroid.getAsteroidStyle();
     int astKilled = 0;
     int totalCrystal = 0;
-    int clickDmg = 1;
+    int clickDmg = cosmonaute.getClickDamage();
     int heroCDCost = 10;
-    int heroLvl = 1;
+    int heroLvl = cosmonaute.getCosmonauteLvl();
     String LvlName = "Orion";
     boolean crit = false;
-    int CHRate = 5;
+    int CHRate = cosmonaute.getCritRate();
     int CritDmg = 2;
 
     // Is it a crit ?
@@ -115,19 +119,85 @@ public class MainActivity extends Activity {
     }
 
     /* Increase Click Damage */
-    public void setClickDmg(View view){
+    public boolean setClickDmg(){
         if(totalCrystal - heroCDCost >= 0){
-            clickDmg = clickDmg + 1;
+            cosmonaute.setClickDamage(1);
+            clickDmg = cosmonaute.getClickDamage();
             totalCrystal = totalCrystal - heroCDCost;
-            heroLvl = heroLvl + 1;
+            cosmonaute.setCosmonauteLvl(1);
+            heroLvl = cosmonaute.getCosmonauteLvl();
             heroCDCost = (int) Math.floor(heroCDCost * Math.pow(1.07, heroLvl));
             displayTotalCrystal(totalCrystal);
             displayNextPuCDCost(heroCDCost);
             displayClickDmg(clickDmg);
+
+            Toast.makeText(
+                    MainActivity.this,
+                    "Your Cosmonaute is Lvl" + cosmonaute.getCosmonauteLvl(),
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return true;
+        } else {
+            Toast.makeText(
+                    MainActivity.this,
+                    "You don't have enough crystals",
+                    Toast.LENGTH_SHORT
+            ).show();
+            return false;
         }
+
     }
 
-    //somes changes bla bla
+
+
+    //Create Cosmonaute Pop Up Menu
+    public void CreatePopupMenu(View v) {
+
+        PopupMenu mypopupmenu = new PopupMenu(this, v);
+        MenuInflater inflater = mypopupmenu.getMenuInflater();
+        inflater.inflate(R.menu.cosmonaute_menu, mypopupmenu.getMenu());
+        mypopupmenu.show();
+
+        //registering popup with OnMenuItemClickListener
+        mypopupmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+
+                    case R.id.option1:
+                        setClickDmg();
+
+                        return true;
+
+                    case R.id.option2:
+
+                        Toast.makeText(
+                                MainActivity.this,
+                                "Option 2 Clicked",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        return true;
+
+                    default:
+
+                        return true;
+
+                }
+
+                /*Toast.makeText(
+                        MainActivity.this,
+                        "Click Damage " + item.getTitle() + " " + item.getItemId(),
+                        Toast.LENGTH_SHORT
+                ).show();*/
+
+
+            }
+
+            });
+
+    }
+
 
     /* What happens when you click*/
     public void hittingAsteroid(View view){

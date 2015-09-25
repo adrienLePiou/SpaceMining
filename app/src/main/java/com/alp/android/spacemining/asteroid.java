@@ -26,12 +26,6 @@ public class asteroid {
         return designName;
     }
 
-    
-    /*public int getAsteroidColor(){
-        Random rnd = new Random();
-        color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        return color;
-    }*/
 
     public void setLvl(int lvl){
         this.lvl = lvl;

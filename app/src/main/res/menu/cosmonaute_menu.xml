@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="500dp">
+
+    <item android:id="@+id/option1"
+        android:icon="@mipmap/ic_hero_drill"
+        android:title="Level Up"
+        android:showAsAction="always|withText"/>
+
+    <item android:id="@+id/option2"
+
+        android:title="Option 2" />
+
+</menu>
