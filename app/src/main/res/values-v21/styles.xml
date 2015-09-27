@@ -2,10 +2,17 @@
 <resources>
     <style name="AppTheme" parent="android:Theme.Material.Light">
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:popupAnimationStyle">@style/PopupWindowAnimation</item>
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">#333333</item>
 
     </style>
+
+    <style name="PopupWindowAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/enter</item>
+        <item name="android:windowExitAnimation">@anim/exit</item>
+    </style>
+
 </resources>

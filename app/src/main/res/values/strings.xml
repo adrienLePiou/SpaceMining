@@ -3,4 +3,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="closebutton">Close [x]</string>
+
+    <color name="colorPopUp">#333333</color>
+    <color name="colorPopUpWindow">#333333</color>
+    <color name="colorPopUpMarcoWindow">#333333</color>
+
 </resources>
