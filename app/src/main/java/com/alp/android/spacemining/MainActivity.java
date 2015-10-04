@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -153,41 +154,6 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         }, 1000); // 1 second delay (takes millis)
 
 
-        // add button listener
-        /*button.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                // custom dialog
-                final Dialog dialog = new Dialog(MainActivity.this);
-                dialog.setContentView(R.layout.cosmonaute_popup);
-                dialog.setTitle("Cosmonaut enhancement.");
-                //dialog.getWindow().getAttributes().y = 400;
-
-                final TextView heroCDCostTxt = (TextView) dialog.findViewById(R.id.pu_cd_cost);
-                heroCDCostTxt.setText(String.valueOf(heroCDCost));
-                Button dialogButton = (Button) dialog.findViewById(R.id.close);
-                // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                ImageButton CDButton = (ImageButton) dialog.findViewById(R.id.imageButton1);
-                // if button is clicked, Activate setClickDmg function.
-                CDButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setClickDmg(findViewById(R.id.LinearCosmonautePopup));
-                    }
-                });
-
-                dialog.show();
-            }
-        });*/
     }
 
 
@@ -214,6 +180,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         return super.onOptionsItemSelected(item);
     }
 
+    // DISPLAY FUNCTIONS
+
     public void displayCurrentLvl(int lvl){
         TextView currentLvlText = (TextView) findViewById(R.id.currentLvlText);
         currentLvlText.setText(String.valueOf(lvl));
@@ -239,10 +207,20 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         totalGoldTxt.setText(String.valueOf(totalCrystal));
     }
 
-    public void displayNextPuCDCost(int heroCDCost){
-        TextView heroCDCostTxt = (TextView) findViewById(R.id.pu_cd_cost);
-        heroCDCostTxt.setText(String.valueOf(heroCDCost));
+    public void displaySpaceshipClick(){
+        ImageView iv = (ImageView) findViewById(R.id.spaceshipView);
+        int resId = getResources().getIdentifier("spaceship_clicked", "drawable", getPackageName());
+        Bitmap bMap = BitmapFactory.decodeResource(getResources(), resId);
+        iv.setImageBitmap(bMap);
     }
+
+    private void displaySpaceship() {
+        ImageView iv = (ImageView) findViewById(R.id.spaceshipView);
+        int resId = getResources().getIdentifier("spaceship", "drawable", getPackageName());
+        Bitmap bMap = BitmapFactory.decodeResource(getResources(), resId);
+        iv.setImageBitmap(bMap);
+    }
+
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void displayAsteroidStyle(String style){
@@ -252,12 +230,13 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         image.setImageBitmap(bMap);
     }
 
+
     public void DPS(){
         asteroidHP = asteroidHP - spaceshipDPS;
     };
 
 
-
+    // VARIABLE DECLARATIONS
 
     asteroid Asteroid = new asteroid();
     Cosmonaute cosmonaute = new Cosmonaute();
@@ -275,6 +254,7 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
     boolean crit = false;
     int CHRate = cosmonaute.getCritRate();
     int CritDmg = 2;
+    boolean clicked;
 
     // Is it a crit ?
     public boolean isCritical(){
@@ -291,6 +271,13 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
 
     /* What happens when you click*/
     public void hittingAsteroid(View view){
+        if(!clicked){
+            displaySpaceshipClick();
+            clicked = true;
+        } else {
+            displaySpaceship();
+            clicked = false;
+        }
         isCritical();
         if(crit){
             asteroidHP = asteroidHP - (clickDmg * CritDmg);
@@ -341,6 +328,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         if(totalCrystal - heroCDCost >= 0){
             fragment.setClickDmg(totalCrystal, heroCDCost, cosmonaute);
             clickDmg = cosmonaute.getClickDamage();
+            totalCrystal = totalCrystal - heroCDCost;
+            displayTotalCrystal(totalCrystal);
 
         } else {
             Toast.makeText(

@@ -156,11 +156,9 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
 
             cosmonaute.setClickDamage(1);
             int clickDmg = cosmonaute.getClickDamage();
-            totalCrystal = totalCrystal - heroCDCost;
             cosmonaute.setCosmonauteLvl(1);
             int heroLvl = cosmonaute.getCosmonauteLvl();
             heroCDCost = (int) Math.floor(heroCDCost * Math.pow(1.07, heroLvl));
-            //displayTotalCrystal(totalCrystal);
             displayNextPuCDCost(heroCDCost);
             displayClickDmg(clickDmg);
 

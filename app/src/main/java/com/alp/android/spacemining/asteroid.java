@@ -20,7 +20,7 @@ public class asteroid {
 
     public String getAsteroidStyle(){
         Random rnd = new Random();
-        int rndInt = rnd.nextInt(5) + 1;
+        int rndInt = rnd.nextInt(4) + 1;
         String designName = "asteroid";
         designName = designName + rndInt;
         return designName;
