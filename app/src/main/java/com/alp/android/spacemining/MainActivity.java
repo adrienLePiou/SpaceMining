@@ -3,8 +3,12 @@ package com.alp.android.spacemining;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,12 +40,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.net.Uri;
 
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
 import java.util.Timer;
 
-public class MainActivity extends Activity {
+
+
+public class MainActivity extends Activity implements ComonautUpgrade.OnFragmentInteractionListener{
+
+    Fragment f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +62,62 @@ public class MainActivity extends Activity {
         displayCurrentLvl(lvl);
         displayLvlName(LvlName);
 
+        final LinearLayout fragContainer = (LinearLayout) findViewById(R.id.llFragmentContainer);
+
+        final LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+
+        ll.setId(R.id.my_linear_layout_fragment);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        //final Fragment f = new ComonautUpgrade();
+        final ComonautUpgrade f = ComonautUpgrade.newInstance("caca","pipi");
+
+        ft.add(ll.getId(), f).commit();
+        Log.d("Fragment ID ", String.valueOf(f.getId()));
+        //getFragmentManager().beginTransaction().add(ll.getId(), ComonautUpgrade.newInstance("I am a fragment", "tag2")).commit();
+
+        fragContainer.addView(ll);
+
+        ft.hide(f);
+        Log.d("I am Hidden ", String.valueOf(f.isHidden()));
+
+        // CREATES COSMONAUT ENHANCEMENT POPUP MENU
+
+        Button button = (Button) findViewById(R.id.open);
+        button.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(android.R.animator.fade_in,
+                        android.R.animator.fade_out);
+
+                if (f.isHidden()) {
+                    ft.show(f);
+                    Log.d("Show", "Show");
+                } else {
+                    ft.hide(f);
+                    Log.d("Hide", "Hide");
+                }
+
+                ft.commit();
+
+            }
+        });
+
+
         // DPS TIMER METHOD
         final Handler h = new Handler();
-        h.postDelayed(new Runnable()
-        {
+        h.postDelayed(new Runnable() {
             private long time = 0;
 
             @Override
             public void run() {
                 DPS();
-                if( asteroidHP > 0 ){
+                if (asteroidHP > 0) {
                     /* The hp of the mob decreases*/
                     displayMobLife(asteroidHP);
                 } else { /* If the monster doesn't have HP anymore*/
@@ -68,7 +125,7 @@ public class MainActivity extends Activity {
                     astKilled = astKilled + 1; /* We increment the number of monster killed*/
                     displayAsteroidsKilled(astKilled); /* We display the number of monster killed*/
                     displayTotalCrystal(totalCrystal); /* We display the total gold we have*/
-                    if (astKilled % 10 == 0){ /*  If the amount of monster killed is dividable by 10 */
+                    if (astKilled % 10 == 0) { /*  If the amount of monster killed is dividable by 10 */
                         displayAsteroidsKilled(astKilled);
                         lvl = lvl + 1; /* We increment the lvl */
                         astKilled = 0;
@@ -90,17 +147,14 @@ public class MainActivity extends Activity {
                     }
                 }
                 time += 1000;
-                Log.d("TimerExample", "Going for... " + time);
+                //Log.d("TimerExample", "Going for... " + time);
                 h.postDelayed(this, 1000);
             }
         }, 1000); // 1 second delay (takes millis)
 
-        // CREATE COSMONAUT ENHANCEMENT POPUP MENU
-
-        Button button = (Button) findViewById(R.id.open);
 
         // add button listener
-        button.setOnClickListener(new OnClickListener() {
+        /*button.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -133,8 +187,10 @@ public class MainActivity extends Activity {
 
                 dialog.show();
             }
-        });
+        });*/
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -184,8 +240,7 @@ public class MainActivity extends Activity {
     }
 
     public void displayNextPuCDCost(int heroCDCost){
-        final Dialog dialog = new Dialog(MainActivity.this);
-        final TextView heroCDCostTxt = (TextView) dialog.findViewById(R.id.pu_cd_cost);
+        TextView heroCDCostTxt = (TextView) findViewById(R.id.pu_cd_cost);
         heroCDCostTxt.setText(String.valueOf(heroCDCost));
     }
 
@@ -232,39 +287,7 @@ public class MainActivity extends Activity {
         return crit;
     }
 
-    /* Increase Click Damage */
-    public void setClickDmg(View view){
-        if(totalCrystal - heroCDCost >= 0){
-            cosmonaute.setClickDamage(1);
-            clickDmg = cosmonaute.getClickDamage();
-            totalCrystal = totalCrystal - heroCDCost;
-            cosmonaute.setCosmonauteLvl(1);
-            heroLvl = cosmonaute.getCosmonauteLvl();
-            heroCDCost = (int) Math.floor(heroCDCost * Math.pow(1.07, heroLvl));
-            displayTotalCrystal(totalCrystal);
-            //displayNextPuCDCost(heroCDCost);
-            //displayClickDmg(clickDmg);
 
-
-            Toast.makeText(
-                    MainActivity.this,
-                    "Your Cosmonaute is now level " + cosmonaute.getCosmonauteLvl(),
-                    Toast.LENGTH_SHORT
-            ).show();
-
-
-
-
-        } else {
-            Toast.makeText(
-                    MainActivity.this,
-                    "You don't have enough crystals",
-                    Toast.LENGTH_SHORT
-            ).show();
-
-        }
-
-    }
 
     /* What happens when you click*/
     public void hittingAsteroid(View view){
@@ -312,7 +335,21 @@ public class MainActivity extends Activity {
 
 
 
+    public void onFragmentInteraction(Uri uri){
+        FragmentManager fm = getFragmentManager();
+        ComonautUpgrade fragment = (ComonautUpgrade)fm.findFragmentById(R.id.my_linear_layout_fragment);
+        if(totalCrystal - heroCDCost >= 0){
+            fragment.setClickDmg(totalCrystal, heroCDCost, cosmonaute);
+            clickDmg = cosmonaute.getClickDamage();
 
+        } else {
+            Toast.makeText(
+                    MainActivity.this,
+                    "Not Enough Crystals",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
+    }
 
 
 
