@@ -103,8 +103,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:textSize="18sp"
+        android:layout_marginTop="70dp"
+        android:textSize="13sp"
         android:textColor="#f5f5f5"
 
         />
@@ -115,11 +115,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="25sp"
+        android:textSize="18sp"
         android:layout_marginTop="80dp"
         android:textStyle="bold"
         android:textColor="#f5f5f5"
         />
+    <ProgressBar
+        android:layout_width="100dp"
+        android:layout_height="8dp"
+        android:layout_below="@id/asteroidHPTxt"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"
+        android:progressBackgroundTint="#CC000000"
+        android:progressTint="#e04f28"
+        android:background="#55000000"
+        android:padding="1dp"
+        android:animationResolution="100"
+
+     />
 
 
     <ImageView

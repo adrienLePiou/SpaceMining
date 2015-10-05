@@ -93,7 +93,6 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
         mButton = (ImageButton) view.findViewById(R.id.imageButton1);
         mButton.setOnClickListener((View.OnClickListener) this);
         tv.setText("10");
-        Log.d("LOG VIEW", String.valueOf(view));
     }
 
     @Override
@@ -180,6 +179,7 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
         TextView tv = (TextView) view.findViewById(R.id.totalCDTxt);
         tv.setText(String.valueOf(clickDmg));
     }
+
 
 
 

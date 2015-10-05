@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,11 @@ import java.util.Timer;
 public class MainActivity extends Activity implements ComonautUpgrade.OnFragmentInteractionListener{
 
     Fragment f;
+    private static final int PROGRESS = 0x1;
+
+    private ProgressBar mProgress;
+    private int mProgressStatus = 0;
+    private Handler progressHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +70,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         displayLvlName(LvlName);
 
         final LinearLayout fragContainer = (LinearLayout) findViewById(R.id.llFragmentContainer);
-
         final LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
-
         ll.setId(R.id.my_linear_layout_fragment);
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -107,8 +111,31 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
                 ft.commit();
 
             }
+
+
         });
 
+        //HP PROGRESS BAR
+        mProgress = (ProgressBar) findViewById(R.id.progress_bar);
+        mProgress.setMax(asteroidMaxHP);
+
+
+
+        // Start lengthy operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+                while (mProgressStatus < 100) {
+                    mProgressStatus = doWork();
+
+                    // Update the progress bar
+                    progressHandler.post(new Runnable() {
+                        public void run() {
+                            mProgress.setProgress(mProgressStatus);
+                        }
+                    });
+                }
+            }
+        }).start();
 
         // DPS TIMER METHOD
         final Handler h = new Handler();
@@ -156,6 +183,9 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
 
     }
 
+    private int doWork() {
+       return asteroidHP;
+    }
 
 
     @Override
@@ -243,6 +273,7 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
     Spaceship spaceship = new Spaceship();
     int spaceshipDPS = spaceship.getDPS();
     int asteroidHP = Asteroid.getAsteroidHP();
+    int asteroidMaxHP = Asteroid.getAsteroidHP();
     int lvl = 1;
     String AsteroidStyle = Asteroid.getAsteroidStyle();
     int astKilled = 0;
@@ -302,7 +333,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
                 astKilled = 0;
                 Asteroid = new asteroid(); /* We create the new monster */
                 Asteroid.setLvl(lvl); /* We set the new lvl */
-                asteroidHP = Asteroid.getAsteroidHP(); /* We create a new monster */
+                asteroidHP = Asteroid.getAsteroidHP(); /* We get the new asteroid's hp amount */
+                asteroidMaxHP = Asteroid.getAsteroidHP(); /* We set the new asteroid's max hp */
                 AsteroidStyle = Asteroid.getAsteroidStyle(); /* We get its color */
                 displayMobLife(asteroidHP); /* We display the monster's HP */
                 displayAsteroidStyle(AsteroidStyle); /* We display its color */
@@ -310,7 +342,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
             } else { /* If we didn't kill 10 monsters */
                 Asteroid = new asteroid(); /* We create the new monster */
                 Asteroid.setLvl(lvl); /* We set the new lvl */
-                asteroidHP = Asteroid.getAsteroidHP(); /* We create a new monster */
+                asteroidHP = Asteroid.getAsteroidHP(); /* We get the new asteroid's hp amount */
+                asteroidMaxHP = Asteroid.getAsteroidHP(); /* We set the new asteroid's max hp */
                 AsteroidStyle = Asteroid.getAsteroidStyle(); /* We get its color */
                 displayMobLife(asteroidHP); /* We display the monster's HP */
                 displayAsteroidStyle(AsteroidStyle); /* We display its color */
@@ -338,6 +371,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
                     Toast.LENGTH_SHORT
             ).show();
         }
+
+
     }
 
 
