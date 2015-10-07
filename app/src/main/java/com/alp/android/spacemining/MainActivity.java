@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -61,6 +63,10 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
     private int mProgressStatus = 0;
     private Handler progressHandler = new Handler();
 
+    AnimationDrawable cosmonautAnimation;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,11 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         displayAsteroidStyle(AsteroidStyle);
         displayCurrentLvl(lvl);
         displayLvlName(LvlName);
+
+        ImageView spaceshipView = (ImageView) findViewById(R.id.spaceshipView);
+        spaceshipView.setBackgroundResource(R.drawable.cosmonaute_animation);
+        cosmonautAnimation = (AnimationDrawable) spaceshipView.getBackground();
+
 
         final LinearLayout fragContainer = (LinearLayout) findViewById(R.id.llFragmentContainer);
         final LinearLayout ll = new LinearLayout(this);
@@ -114,6 +125,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
 
 
         });
+
+
 
         //HP PROGRESS BAR
         mProgress = (ProgressBar) findViewById(R.id.progress_bar);
@@ -187,13 +200,13 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
        return asteroidHP;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -237,19 +250,19 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         totalGoldTxt.setText(String.valueOf(totalCrystal));
     }
 
-    public void displaySpaceshipClick(){
+    /*public void displaySpaceshipClick(){
         ImageView iv = (ImageView) findViewById(R.id.spaceshipView);
         int resId = getResources().getIdentifier("spaceship_clicked", "drawable", getPackageName());
         Bitmap bMap = BitmapFactory.decodeResource(getResources(), resId);
         iv.setImageBitmap(bMap);
-    }
+    }*/
 
-    private void displaySpaceship() {
+    /*private void displaySpaceship() {
         ImageView iv = (ImageView) findViewById(R.id.spaceshipView);
         int resId = getResources().getIdentifier("spaceship", "drawable", getPackageName());
         Bitmap bMap = BitmapFactory.decodeResource(getResources(), resId);
         iv.setImageBitmap(bMap);
-    }
+    }*/
 
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -279,7 +292,7 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
     int astKilled = 0;
     int totalCrystal = 10;
     int clickDmg = cosmonaute.getClickDamage();
-    int heroCDCost = 10;
+    int heroCDCost = cosmonaute.getHeroCDCost();
     int heroLvl = cosmonaute.getCosmonauteLvl();
     String LvlName = "Orion";
     boolean crit = false;
@@ -302,13 +315,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
 
     /* What happens when you click*/
     public void hittingAsteroid(View view){
-        if(!clicked){
-            displaySpaceshipClick();
-            clicked = true;
-        } else {
-            displaySpaceship();
-            clicked = false;
-        }
+        cosmonautAnimation.setVisible(false,true);
+        cosmonautAnimation.start();
         isCritical();
         if(crit){
             asteroidHP = asteroidHP - (clickDmg * CritDmg);
@@ -317,8 +325,8 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         }
          /* We display the new life of the mob*/
         displayAsteroidStyle(AsteroidStyle);
-        displayCurrentLvl(lvl);
-        displayLvlName(LvlName);
+            displayCurrentLvl(lvl);
+            displayLvlName(LvlName);
         if( asteroidHP > 0 ){
          /* The hp of the mob decreases*/
             displayMobLife(asteroidHP);
@@ -359,8 +367,9 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
         FragmentManager fm = getFragmentManager();
         ComonautUpgrade fragment = (ComonautUpgrade)fm.findFragmentById(R.id.my_linear_layout_fragment);
         if(totalCrystal - heroCDCost >= 0){
-            fragment.setClickDmg(totalCrystal, heroCDCost, cosmonaute);
+            fragment.setClickDmg(totalCrystal, cosmonaute);
             clickDmg = cosmonaute.getClickDamage();
+            heroCDCost = cosmonaute.getHeroCDCost();
             totalCrystal = totalCrystal - heroCDCost;
             displayTotalCrystal(totalCrystal);
 

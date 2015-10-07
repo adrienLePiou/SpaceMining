@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigInteger;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,6 +95,8 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
         mButton = (ImageButton) view.findViewById(R.id.imageButton1);
         mButton.setOnClickListener((View.OnClickListener) this);
         tv.setText("10");
+
+        TextView addClickDmg = (TextView) view.findViewById(R.id.addClickDmg);
     }
 
     @Override
@@ -150,27 +154,38 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
         mListener.onFragmentInteraction(null);
     }
 
+
+
     /* Increase Click Damage */
-    public void setClickDmg(int totalCrystal, int heroCDCost, Cosmonaute cosmonaute){
+    public void setClickDmg(int totalCrystal, Cosmonaute cosmonaute){
 
-            cosmonaute.setClickDamage(1);
-            int clickDmg = cosmonaute.getClickDamage();
-            cosmonaute.setCosmonauteLvl(1);
-            int heroLvl = cosmonaute.getCosmonauteLvl();
-            heroCDCost = (int) Math.floor(heroCDCost * Math.pow(1.07, heroLvl));
-            displayNextPuCDCost(heroCDCost);
-            displayClickDmg(clickDmg);
+        cosmonaute.setClickDamage(1);
+        int clickDmg = cosmonaute.getClickDamage();
+        cosmonaute.setCosmonauteLvl(1);
+        int heroLvl = cosmonaute.getCosmonauteLvl();
+
+        cosmonaute.setHeroCDCost();
+        int heroCDCost = cosmonaute.getHeroCDCost();
+
+        displayNextPuCDCost(heroCDCost);
+        displayClickDmg(clickDmg);
+        displayCosmonautLvl(heroLvl);
+        displayAddClickDmg(cosmonaute.getNextAddClickDamageAmount());
 
 
 
-            Toast.makeText(
-                    ((MainActivity)getActivity()),
-                    "Your Cosmonaute is now level " + cosmonaute.getCosmonauteLvl(),
-                    Toast.LENGTH_SHORT
-            ).show();
+        Toast.makeText(
+                ((MainActivity)getActivity()),
+                "Your Cosmonaute is now level " + cosmonaute.getCosmonauteLvl(),
+                Toast.LENGTH_SHORT
+        ).show();
 
     }
 
+    public void displayCosmonautLvl(int lvl){
+        TextView tv = (TextView) view.findViewById(R.id.cosmonauteLvl);
+        tv.setText(String.valueOf(lvl));
+    }
     public void displayNextPuCDCost(int heroCDCost){
         TextView tv = (TextView) view.findViewById(R.id.pu_cd_cost);
         tv.setText(String.valueOf(heroCDCost));
@@ -178,6 +193,11 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
     public void displayClickDmg(int clickDmg){
         TextView tv = (TextView) view.findViewById(R.id.totalCDTxt);
         tv.setText(String.valueOf(clickDmg));
+    }
+
+    public void displayAddClickDmg(BigInteger nextClickDmg){
+        TextView tv = (TextView) view.findViewById(R.id.addClickDmg);
+        tv.setText(String.valueOf(nextClickDmg));
     }
 
 

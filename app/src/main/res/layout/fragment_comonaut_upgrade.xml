@@ -3,12 +3,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context="com.alp.android.spacemining.ComonautUpgrade"
-    android:background="@android:color/transparent"
+    android:background="#44000000"
     android:id="@+id/cosmonautUpgradeTag"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -25,15 +26,18 @@
 
             />
 
-    </LinearLayout>
+    </LinearLayout>-->
 
+    <!-- Premier Skill -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:background="@color/colorPopUpWindow"
+        android:layout_weight="1"
+        android:background="#CC000000"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_marginBottom="5dp">
 
         <ImageButton
             android:id="@+id/imageButton1"
@@ -53,46 +57,248 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Click Damage"
-                android:textColor="#f5f5f5"/>
-            <TextView
-                android:id="@+id/totalCDTxt"
+                android:text="Space Miner #1138-4EB"
+                android:textSize="13sp"
+                android:textColor="#f5f5f5"
+                android:textStyle="bold"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
-                android:textColor="#f5f5f5"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Level"
+                    android:textSize="13sp"
+                    android:textColor="#f5f5f5"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/cosmonauteLvl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="13sp"
+                    android:textColor="#29B6F6"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Damage"
+                    android:textSize="13sp"
+                    android:textColor="#616161"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/totalCDTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Damage"
+                    android:textSize="13sp"
+                    android:textColor="#F4511E"/>
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="54dp"
             android:orientation="vertical"
             android:layout_weight="1"
-            android:textAlignment="viewEnd">
+            android:textAlignment="viewEnd"
 
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cost"
-                android:layout_marginRight="5dp"
-                android:textColor="#f5f5f5"
-                />
+                android:background="@drawable/skilllevelupcostshape"
+                >
 
+                <TextView
+                    android:id="@+id/pu_cd_cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="Cost"
+                    android:textSize="12sp"
+                    android:textColor="#212121"
+                    android:textStyle="bold"
+                    />
 
-            <TextView
-                android:id="@+id/pu_cd_cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:layout_marginRight="5dp"
-                android:textColor="#f5f5f5"
+            </LinearLayout>
 
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/skilllvlupshape">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Level Up"
+                    android:textColor="#f5f5f5"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    />
+                <TextView
+                    android:id="@+id/addClickDmg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="+1 DMG"
+                    android:textColor="#f5f5f5"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <!-- Deuxieme Skill -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#CC000000"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_hero_drill"
+            android:background="@android:color/transparent"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hydraulic Strike"
+                android:textSize="13sp"
+                android:textColor="#f5f5f5"
+                android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Level"
+                    android:textSize="13sp"
+                    android:textColor="#f5f5f5"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/hydraulicStrikeLvl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="13sp"
+                    android:textColor="#29B6F6"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deals a total of"
+                    android:textSize="13sp"
+                    android:textColor="#616161"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:id="@+id/hydraulicStrikeDmg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10 strikes / second"
+                    android:textSize="13sp"
+                    android:textColor="#F4511E"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:textAlignment="viewEnd"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/skilllevelupcostshape"
+                >
+
+                <TextView
+                    android:id="@+id/pu_cd_cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="Cost"
+                    android:textSize="12sp"
+                    android:textColor="#212121"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/skilllvlupshape">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Level Up"
+                    android:textColor="#f5f5f5"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="+1 DMG"
+                    android:textColor="#f5f5f5"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
