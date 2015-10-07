@@ -8,6 +8,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.net.Uri;
@@ -21,6 +23,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -317,6 +323,7 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
     public void hittingAsteroid(View view){
         cosmonautAnimation.setVisible(false,true);
         cosmonautAnimation.start();
+        displayClickDmg(clickDmg);
         isCritical();
         if(crit){
             asteroidHP = asteroidHP - (clickDmg * CritDmg);
@@ -362,7 +369,7 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
 
 
 
-
+    // What happens when you click on a button inside the Fragment. Needs to be completed
     public void onFragmentInteraction(Uri uri){
         FragmentManager fm = getFragmentManager();
         ComonautUpgrade fragment = (ComonautUpgrade)fm.findFragmentById(R.id.my_linear_layout_fragment);
@@ -381,10 +388,33 @@ public class MainActivity extends Activity implements ComonautUpgrade.OnFragment
             ).show();
         }
 
-
     }
 
+    public void displayClickDmg(int clickDmg){
+        TextView tv = new TextView(getApplicationContext());
+        tv.setText(String.valueOf(clickDmg));
+        tv.setTextSize(20);
+        tv.setTextColor(Color.RED);
+        tv.setTypeface(null, Typeface.BOLD);
 
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.container);
+        rl.addView(tv);
+
+        TranslateAnimation animate = new TranslateAnimation(rl.getWidth()/2,rl.getWidth()/2,rl.getHeight()/2,rl.getHeight()/2-350);
+        animate.setDuration(1000);
+        Animation animationFade = AnimationUtils.loadAnimation(MainActivity.this, android.R.anim.fade_out);
+        animationFade.setDuration(1000);
+
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.addAnimation(animate);
+        animationSet.addAnimation(animationFade);
+
+
+        tv.startAnimation(animationSet);
+        tv.setVisibility(View.INVISIBLE);
+        //tv.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, android.R.anim.slide_out_right));
+
+    }
 
 
 }

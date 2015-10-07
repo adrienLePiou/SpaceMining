@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM2 = "param2";
     private View myFragmentView;
     private View view;
-    private ImageButton mButton;
+    private LinearLayout cdButton;
     private TextView heroCDCostTxt;
 
     // TODO: Rename and change types of parameters
@@ -92,8 +93,8 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         TextView tv = (TextView) view.findViewById(R.id.pu_cd_cost);
-        mButton = (ImageButton) view.findViewById(R.id.imageButton1);
-        mButton.setOnClickListener((View.OnClickListener) this);
+        cdButton = (LinearLayout) view.findViewById(R.id.cdButton);
+        cdButton.setOnClickListener((View.OnClickListener) this);
         tv.setText("10");
 
         TextView addClickDmg = (TextView) view.findViewById(R.id.addClickDmg);
@@ -197,7 +198,7 @@ public class ComonautUpgrade extends Fragment implements View.OnClickListener {
 
     public void displayAddClickDmg(BigInteger nextClickDmg){
         TextView tv = (TextView) view.findViewById(R.id.addClickDmg);
-        tv.setText(String.valueOf(nextClickDmg));
+        tv.setText("+" + String.valueOf(nextClickDmg));
     }
 
 
